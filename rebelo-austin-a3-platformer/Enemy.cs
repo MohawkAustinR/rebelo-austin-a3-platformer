@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game10003
+namespace Game10003;
 
 public class Enemy
 {
