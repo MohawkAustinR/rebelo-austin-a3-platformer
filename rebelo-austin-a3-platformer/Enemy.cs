@@ -17,14 +17,14 @@ public class Enemy
     }
     public void DrawEnemy()
     {
-        Draw.FillColor = Color.Red;
+        Draw.FillColor = Color.Green;
         Draw.Square(position, size);
     }
 
     public void EnemyCollision()
     {
         leftEdge = position.X;
-        rightEdge = position.Y;
-        topEdge = position.Y + size;
+        rightEdge = position.X + size;
+        topEdge = position.Y;
     }
 }

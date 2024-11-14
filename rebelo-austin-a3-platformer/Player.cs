@@ -9,8 +9,7 @@ public class Player
     public float size;
     public float speed = 200;
 
-    public Vector2 velocity;
-    public Vector2 jumpVelocity = new Vector2(0, 200);
+    public Vector2 velocity = new Vector2(0, +10);
     public Vector2 gravity = new Vector2(0, +10);
 
     public float leftEdge;
@@ -21,6 +20,10 @@ public class Player
     public bool doesOverlapLeft;
     public bool doesOverlapRight;
     public bool doesOverlapTop;
+    public bool doesOverlapBottom;
+    bool doesOverlap;
+    public bool isPlayerTouchingPlatform = false;
+
     public void DrawPlayer()
     {
         Draw.FillColor = Color.White;
@@ -30,10 +33,14 @@ public class Player
     public void Move()
     {
         // Apply force to velocity
-        velocity += gravity * Time.DeltaTime;
+        if (velocity.Y <= 10)
+        {
+            velocity += gravity * Time.DeltaTime;
+        }
+        
 
         // Jump movement
-        if ((Input.IsKeyboardKeyPressed(KeyboardInput.Up) || Input.IsKeyboardKeyPressed(KeyboardInput.W)) && doesOverlapTop)
+        if ((Input.IsKeyboardKeyPressed(KeyboardInput.Up) || Input.IsKeyboardKeyPressed(KeyboardInput.W)) && isPlayerTouchingPlatform)
         {
             velocity = -velocity;
             position -= velocity * Time.DeltaTime;
@@ -43,6 +50,12 @@ public class Player
             // Apply velocity to position
             position += velocity;
         }
+
+        if (velocity.Y < 0)
+        {
+            gravity = new Vector2(0, 20);
+        }
+        Console.WriteLine(velocity);
         // Left movement
         if (Input.IsKeyboardKeyDown(KeyboardInput.Left) || Input.IsKeyboardKeyDown(KeyboardInput.A))
         {
@@ -57,7 +70,7 @@ public class Player
 
     }
 
-    public void PlayerCollision(float rightEdge2, float leftEdge2, float topEdge2)
+    public void PlayerCollision(Platform platform)
     {
         // Defines player edges collision
         leftEdge = position.X;
@@ -65,22 +78,26 @@ public class Player
         topEdge = position.Y;
         bottomEdge = position.Y + size;
 
-        doesOverlapLeft = leftEdge <= rightEdge2;
-        doesOverlapRight = rightEdge >= leftEdge2;
-        doesOverlapTop = bottomEdge >= topEdge2;
+        doesOverlapLeft = leftEdge <= platform.rightEdge;
+        doesOverlapRight = rightEdge >= platform.leftEdge;
+        doesOverlapTop = bottomEdge >= platform.topEdge;
+        doesOverlapBottom = topEdge >= platform.bottomEdge;
 
-        bool doesOverlap = doesOverlapLeft && doesOverlapRight && doesOverlapTop;
+        doesOverlap = doesOverlapLeft && doesOverlapRight && doesOverlapTop;
 
 
 
         if (doesOverlap)
         {
             gravity = new Vector2(0, 0);
-            position.Y = topEdge2 - size;
+            position.Y = platform.topEdge - size;
+            platform.isPlayerTouching = true;
         }
         else
         {
-            gravity = new Vector2(0, 10);
+            gravity = new Vector2(0, 20);
+            platform.isPlayerTouching = false;
         }
+       
     }
 }

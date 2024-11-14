@@ -10,6 +10,9 @@ public class Platform
     public float leftEdge;
     public float rightEdge;
     public float topEdge;
+    public float bottomEdge;
+    public bool isPlayerTouching;
+
 
     public void DrawPlatform()
     {
@@ -22,5 +25,6 @@ public class Platform
         leftEdge = position.X;
         rightEdge = position.X + size.X;
         topEdge = position.Y;
+        bottomEdge = position.Y + size.Y;
     }
 }
