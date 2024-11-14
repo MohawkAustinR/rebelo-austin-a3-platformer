@@ -12,6 +12,8 @@ namespace Game10003
     {
         // Place your variables here:
         Player player = new Player();
+        Platforms platforms = new Platforms();
+        Enemy enemy = new Enemy();
 
         /// <summary>
         ///     Setup runs once before the game loop begins.
@@ -19,9 +21,12 @@ namespace Game10003
         public void Setup()
         {
             Window.SetTitle("PlatformerWIP");
-            Window.SetSize(800, 800);
+            Window.SetSize(600, 800);
             player.size = 40;
             player.position = new Vector2(Window.Width / 2 - player.size / 2, Window.Height / 2 - player.size / 2);
+
+            enemy.size = 40;
+
         }
 
         /// <summary>
