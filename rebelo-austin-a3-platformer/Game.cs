@@ -13,7 +13,7 @@ namespace Game10003
         // Place your variables here:
         Player player = new Player();
         Platform[] platforms = new Platform[10 ];
-        Enemy enemy = new Enemy();
+        Goal goal = new Goal();
 
         /// <summary>
         ///     Setup runs once before the game loop begins.
@@ -24,6 +24,9 @@ namespace Game10003
             Window.SetSize(800, 600);
             player.size = 20;
             player.position = new Vector2(Window.Width / 2 - player.size / 2, Window.Height / 2 - player.size / 2);
+
+            goal.size = 50;
+            goal.position = new Vector2(Window.Width - goal.size, Window.Height - goal.size);
 
             for (int i = 0; i < platforms.Length; i++)
             {
@@ -53,7 +56,6 @@ namespace Game10003
             platforms[8].position = new Vector2(0, Window.Height - platforms[0].size.Y);
             platforms[9].position = new Vector2(0, Window.Height - platforms[0].size.Y);
 
-            enemy.size = 40;
 
         }
 
@@ -64,27 +66,36 @@ namespace Game10003
         {
             Window.ClearBackground(Color.Black);
 
-            player.Move();
-
-            for (int i = 0; i <platforms.Length; i++)
+            if (!goal.GoalCollision(player))
             {
-                platforms[i].DrawPlatform();
-                player.PlayerCollision(platforms[i]);
-                for (int j = 0; j < platforms.Length; j++)
+                player.Move();
+
+                for (int i = 0; i < platforms.Length; i++)
                 {
-                    if (platforms[j].isPlayerTouching)
+                    platforms[i].DrawPlatform();
+                    player.PlayerCollision(platforms[i]);
+                    for (int j = 0; j < platforms.Length; j++)
                     {
-                        player.isPlayerTouchingPlatform = true;
-                        break;
-                    }
-                    else
-                    {
-                        player.isPlayerTouchingPlatform = false;
+                        if (platforms[j].isPlayerTouching)
+                        {
+                            player.isPlayerTouchingPlatform = true;
+                            break;
+                        }
+                        else
+                        {
+                            player.isPlayerTouchingPlatform = false;
+                        }
                     }
                 }
+                player.DrawPlayer();
+                goal.DrawGoal();
             }
-            player.DrawPlayer();
-
+            else
+            {
+                Text.Size = 30;
+                Text.Color = Color.White;
+                Text.Draw("You Win!", 0, 0);
+            }
 
         }
     }

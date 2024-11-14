@@ -3,28 +3,32 @@ using System.Numerics;
 
 namespace Game10003;
 
-public class Enemy
+public class Goal
 {
     public Vector2 position;
     public float size;
     public float leftEdge;
-    public float rightEdge;
     public float topEdge;
 
-    public void EnemyMove()
-    {
+    bool isPlayerTouchingTop;
+    bool isPlayerTouchingLeft;
+    bool isPlayerInside;
 
-    }
-    public void DrawEnemy()
+
+    public void DrawGoal()
     {
         Draw.FillColor = Color.Green;
         Draw.Square(position, size);
     }
 
-    public void EnemyCollision()
+    public bool GoalCollision(Player player)
     {
         leftEdge = position.X;
-        rightEdge = position.X + size;
         topEdge = position.Y;
+
+        isPlayerTouchingTop = player.bottomEdge >= topEdge;
+        isPlayerTouchingLeft = player.leftEdge >= leftEdge;
+        isPlayerInside = isPlayerTouchingTop && isPlayerTouchingLeft;
+        return isPlayerInside;
     }
 }
