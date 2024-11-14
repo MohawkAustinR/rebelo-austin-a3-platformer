@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace Game10003;
 
-public class Platforms
+public class Platform
 {
 	public Vector2 position;
 	public Vector2 size;
@@ -20,7 +20,7 @@ public class Platforms
     public void PlatformCollision()
 	{
         leftEdge = position.X;
-        rightEdge = position.Y;
-        topEdge = position.Y + size.Y;
+        rightEdge = position.X + size.X;
+        topEdge = position.Y;
     }
 }

@@ -12,7 +12,7 @@ namespace Game10003
     {
         // Place your variables here:
         Player player = new Player();
-        Platforms platforms = new Platforms();
+        Platform[] platforms = new Platform[1];
         Enemy enemy = new Enemy();
 
         /// <summary>
@@ -21,10 +21,12 @@ namespace Game10003
         public void Setup()
         {
             Window.SetTitle("PlatformerWIP");
-            Window.SetSize(600, 800);
+            Window.SetSize(800, 600);
             player.size = 40;
             player.position = new Vector2(Window.Width / 2 - player.size / 2, Window.Height / 2 - player.size / 2);
-
+            platforms[0] = new Platform();
+            platforms[0].size = new Vector2(800, 100);
+            platforms[0].position = new Vector2(0, Window.Height - platforms[0].size.Y);
             enemy.size = 40;
 
         }
@@ -38,7 +40,15 @@ namespace Game10003
 
             player.Move();
 
+            for (int i = 0; i <platforms.Length; i++)
+            {
+                platforms[i].DrawPlatform();
+                player.PlayerCollision(platforms[i].rightEdge, platforms[i].leftEdge, platforms[i].topEdge);
+            }
+
             player.DrawPlayer();
+
+
         }
     }
 }

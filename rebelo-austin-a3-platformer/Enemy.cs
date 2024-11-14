@@ -11,6 +11,10 @@ public class Enemy
     public float rightEdge;
     public float topEdge;
 
+    public void EnemyMove()
+    {
+
+    }
     public void DrawEnemy()
     {
         Draw.FillColor = Color.Red;
