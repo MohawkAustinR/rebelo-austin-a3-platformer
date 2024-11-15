@@ -21,7 +21,7 @@ public class Player
     public bool doesOverlapRight;
     public bool doesOverlapTop;
     public bool doesOverlapBottom;
-    bool doesOverlap;
+    public bool doesOverlap;
     public bool isPlayerTouchingPlatform = false;
 
     public void DrawPlayer()
@@ -55,7 +55,7 @@ public class Player
         {
             gravity = new Vector2(0, 20);
         }
-        Console.WriteLine(velocity);
+
         // Left movement
         if (Input.IsKeyboardKeyDown(KeyboardInput.Left) || Input.IsKeyboardKeyDown(KeyboardInput.A))
         {
@@ -72,7 +72,7 @@ public class Player
 
     public void PlayerCollision(Platform platform)
     {
-        // Defines player edges collision
+        //Defines player edges and overlaps
         leftEdge = position.X;
         rightEdge = position.X + size;
         topEdge = position.Y;
@@ -86,7 +86,7 @@ public class Player
         doesOverlap = doesOverlapLeft && doesOverlapRight && doesOverlapTop;
 
 
-
+        //Keeps player on top edge of platform
         if (doesOverlap)
         {
             gravity = new Vector2(0, 0);
